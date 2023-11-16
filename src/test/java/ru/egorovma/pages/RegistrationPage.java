@@ -2,14 +2,15 @@ package ru.egorovma.pages;
 
 import com.codeborne.selenide.SelenideElement;
 import ru.egorovma.pages.components.CalendarComponent;
+import ru.egorovma.pages.components.TableResultFormComponent;
 
 import static com.codeborne.selenide.Condition.cssValue;
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class RegistrationPage {
     CalendarComponent calendarComponent = new CalendarComponent();
+    TableResultFormComponent tableResultFormComponent = new TableResultFormComponent();
     private final SelenideElement firstNameInput = $("#firstName");
     private final SelenideElement lastNameInput = $("#lastName");
     private final SelenideElement userEmailInput = $("#userEmail");
@@ -25,7 +26,6 @@ public class RegistrationPage {
     private final SelenideElement stateInput = $("#react-select-3-input");
     private final SelenideElement cityInput = $("#react-select-4-input");
     private final SelenideElement submitInput = $("#submit");
-    private final SelenideElement tableResponsiveInput = $(".table-responsive");
 
     public RegistrationPage openPage(String url) {
         open(url);
@@ -134,7 +134,7 @@ public class RegistrationPage {
     }
 
     public RegistrationPage checkResult(String key, String value) {
-        tableResponsiveInput.$(byText(key)).sibling(0).shouldHave(text(value));
+        tableResultFormComponent.checkResult(key, value);
         return this;
     }
 
