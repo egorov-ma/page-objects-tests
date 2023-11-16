@@ -11,21 +11,21 @@ import static com.codeborne.selenide.Selenide.*;
 public class RegistrationPage {
     CalendarComponent calendarComponent = new CalendarComponent();
     TableResultFormComponent tableResultFormComponent = new TableResultFormComponent();
-    private final SelenideElement firstNameInput = $("#firstName");
-    private final SelenideElement lastNameInput = $("#lastName");
-    private final SelenideElement userEmailInput = $("#userEmail");
-    private final SelenideElement genderInput = $("#genterWrapper");
-    private final SelenideElement mobileNumberInput = $("#userNumber");
-    private final SelenideElement dateOfBirthInput = $("#dateOfBirthInput");
-    private final SelenideElement subjectsInput = $("#subjectsInput");
-    private final SelenideElement hobbiesSportsInput = $("[for=hobbies-checkbox-1]");
-    private final SelenideElement hobbiesReadingInput = $("[for=hobbies-checkbox-2]");
-    private final SelenideElement hobbiesMusicInput = $("[for=hobbies-checkbox-3]");
-    private final SelenideElement uploadPictureInput = $("#uploadPicture");
-    private final SelenideElement currentAddressInput = $("#currentAddress");
-    private final SelenideElement stateInput = $("#react-select-3-input");
-    private final SelenideElement cityInput = $("#react-select-4-input");
-    private final SelenideElement submitInput = $("#submit");
+    private final SelenideElement firstNameInput = $("#firstName"),
+            lastNameInput = $("#lastName"),
+            userEmailInput = $("#userEmail"),
+            genderInput = $("#genterWrapper"),
+            mobileNumberInput = $("#userNumber"),
+            dateOfBirthInput = $("#dateOfBirthInput"),
+            subjectsInput = $("#subjectsInput"),
+            hobbiesSportsInput = $("[for=hobbies-checkbox-1]"),
+            hobbiesReadingInput = $("[for=hobbies-checkbox-2]"),
+            hobbiesMusicInput = $("[for=hobbies-checkbox-3]"),
+            uploadPictureInput = $("#uploadPicture"),
+            currentAddressInput = $("#currentAddress"),
+            stateInput = $("#react-select-3-input"),
+            cityInput = $("#react-select-4-input"),
+            submitInput = $("#submit");
 
     public RegistrationPage openPage(String url) {
         open(url);
