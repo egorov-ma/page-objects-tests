@@ -1,9 +1,11 @@
 package ru.egorovma.pages;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import ru.egorovma.pages.components.CalendarComponent;
 
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
@@ -24,7 +26,7 @@ public class RegistrationPage {
     private final SelenideElement stateInput = $("#react-select-3-input");
     private final SelenideElement cityInput = $("#react-select-4-input");
     private final SelenideElement submitInput = $("#submit");
-
+    private final SelenideElement tableResponsiveInput = $(".table-responsive");
 
     public RegistrationPage openPage() {
         Configuration.baseUrl = "https://demoqa.com";
@@ -113,20 +115,29 @@ public class RegistrationPage {
         uploadPictureInput.uploadFromClasspath(picture);
         return this;
     }
+
     public RegistrationPage setCurrentAddress(String currentAddress) {
         currentAddressInput.setValue(currentAddress);
         return this;
     }
+
     public RegistrationPage setState(String state) {
         stateInput.setValue(state).pressEnter();
         return this;
     }
+
     public RegistrationPage setCity(String city) {
         cityInput.setValue(city).pressEnter();
         return this;
     }
+
     public RegistrationPage submit() {
         submitInput.click();
+        return this;
+    }
+
+    public RegistrationPage checkResult(String key, String value) {
+        tableResponsiveInput.$(byText(key)).sibling(0).shouldHave(text(value));
         return this;
     }
 }

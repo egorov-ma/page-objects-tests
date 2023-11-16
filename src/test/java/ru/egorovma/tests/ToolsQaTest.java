@@ -1,10 +1,7 @@
 package ru.egorovma.tests;
 
-import com.codeborne.selenide.Condition;
 import org.junit.jupiter.api.Test;
 import ru.egorovma.pages.RegistrationPage;
-
-import static com.codeborne.selenide.Selenide.$;
 
 public class ToolsQaTest extends TestBase {
 
@@ -29,16 +26,15 @@ public class ToolsQaTest extends TestBase {
                 .setCity("Merrut")
                 .submit();
 
-        $(".table-responsive")
-                .shouldHave(Condition.text("Maksim Егоров"))
-                .shouldHave(Condition.text("test@qa.ru"))
-                .shouldHave(Condition.text("Male"))
-                .shouldHave(Condition.text("9876543210"))
-                .shouldHave(Condition.text("14 December,1993"))
-                .shouldHave(Condition.text("Maths"))
-                .shouldHave(Condition.text("Sports"))
-                .shouldHave(Condition.text("qaguru.jpg"))
-                .shouldHave(Condition.text("ул. Мир 2023, корпус 10, кв. 29"))
-                .shouldHave(Condition.text("Uttar Pradesh Merrut"));
+        registrationPage.checkResult("Student Name", "Maksim Егоров")
+                .checkResult("Student Email", "test@qa.ru")
+                .checkResult("Gender", "Male")
+                .checkResult("Mobile", "9876543210")
+                .checkResult("Date of Birth", "14 December,1993")
+                .checkResult("Subjects", "Maths")
+                .checkResult("Hobbies", "Sports, Music")
+                .checkResult("Picture", "qaguru.jpg")
+                .checkResult("Address", "ул. Мир 2023, корпус 10, кв. 29")
+                .checkResult("State and City", "Uttar Pradesh Merrut");
     }
 }
