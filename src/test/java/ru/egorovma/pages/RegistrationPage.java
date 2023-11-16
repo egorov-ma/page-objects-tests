@@ -1,11 +1,10 @@
 package ru.egorovma.pages;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import ru.egorovma.pages.components.CalendarComponent;
 
-import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
@@ -131,9 +130,8 @@ public class RegistrationPage {
         return this;
     }
 
-    public RegistrationPage submit() {
+    public void submit() {
         submitInput.click();
-        return this;
     }
 
     public RegistrationPage checkResult(String key, String value) {
