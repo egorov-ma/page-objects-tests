@@ -1,9 +1,9 @@
 package ru.egorovma.pages;
 
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import ru.egorovma.pages.components.CalendarComponent;
 
+import static com.codeborne.selenide.Condition.cssValue;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
@@ -13,8 +13,8 @@ public class RegistrationPage {
     private final SelenideElement firstNameInput = $("#firstName");
     private final SelenideElement lastNameInput = $("#lastName");
     private final SelenideElement userEmailInput = $("#userEmail");
-    private final SelenideElement genterWrapperInput = $("#genterWrapper");
-    private final SelenideElement userNumberInput = $("#userNumber");
+    private final SelenideElement genderInput = $("#genterWrapper");
+    private final SelenideElement mobileNumberInput = $("#userNumber");
     private final SelenideElement dateOfBirthInput = $("#dateOfBirthInput");
     private final SelenideElement subjectsInput = $("#subjectsInput");
     private final SelenideElement hobbiesSportsInput = $("[for=hobbies-checkbox-1]");
@@ -27,9 +27,8 @@ public class RegistrationPage {
     private final SelenideElement submitInput = $("#submit");
     private final SelenideElement tableResponsiveInput = $(".table-responsive");
 
-    public RegistrationPage openPage() {
-        Configuration.baseUrl = "https://demoqa.com";
-        open("/automation-practice-form");
+    public RegistrationPage openPage(String url) {
+        open(url);
         executeJavaScript("$('#fixedban').remove()");
         executeJavaScript("$('footer').remove()");
         return this;
@@ -51,12 +50,12 @@ public class RegistrationPage {
     }
 
     public RegistrationPage setGender(String genterWrapper) {
-        genterWrapperInput.$(byText(genterWrapper)).click();
+        genderInput.$(byText(genterWrapper)).click();
         return this;
     }
 
     public RegistrationPage setUserNumber(String userNumber) {
-        userNumberInput.setValue(userNumber);
+        mobileNumberInput.setValue(userNumber);
         return this;
     }
 
@@ -137,5 +136,10 @@ public class RegistrationPage {
     public RegistrationPage checkResult(String key, String value) {
         tableResponsiveInput.$(byText(key)).sibling(0).shouldHave(text(value));
         return this;
+    }
+
+    public void checkRequiredFields(String propertyName, String expectedValue) {
+        firstNameInput.shouldHave(cssValue(propertyName, expectedValue));
+        lastNameInput.shouldHave(cssValue(propertyName, expectedValue));
     }
 }
