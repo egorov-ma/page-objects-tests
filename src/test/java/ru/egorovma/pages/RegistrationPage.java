@@ -70,41 +70,19 @@ public class RegistrationPage {
         return this;
     }
 
-    public RegistrationPage setHobbies(String subject) {
-        if (subject.equals("Sports")) {
-            hobbiesSportsInput.click();
-        }
-        if (subject.equals("Reading")) {
-            hobbiesReadingInput.click();
-        }
-        if (subject.equals("Music")) {
-            hobbiesMusicInput.click();
-        }
-        return this;
-    }
-
-    public RegistrationPage setHobbies(String subject1, String subject2) {
-        if (subject1.equals("Sports") || subject2.equals("Sports")) {
-            hobbiesSportsInput.click();
-        }
-        if (subject1.equals("Reading") || subject2.equals("Reading")) {
-            hobbiesReadingInput.click();
-        }
-        if (subject1.equals("Music") || subject2.equals("Music")) {
-            hobbiesMusicInput.click();
-        }
-        return this;
-    }
-
-    public RegistrationPage setHobbies(String subject1, String subject2, String subject3) {
-        if (subject1.equals("Sports") || subject2.equals("Sports") || subject3.equals("Sports")) {
-            hobbiesSportsInput.click();
-        }
-        if (subject1.equals("Reading") || subject2.equals("Reading") || subject3.equals("Reading")) {
-            hobbiesReadingInput.click();
-        }
-        if (subject1.equals("Music") || subject2.equals("Music") || subject3.equals("Music")) {
-            hobbiesMusicInput.click();
+    public RegistrationPage setHobbies(String hobbies) {
+        switch (hobbies) {
+            case "Sports":
+                hobbiesSportsInput.click();
+                break;
+            case "Reading":
+                hobbiesReadingInput.click();
+                break;
+            case "Music":
+                hobbiesMusicInput.click();
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported hobbies: " + hobbies);
         }
         return this;
     }
