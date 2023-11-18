@@ -18,9 +18,7 @@ public class RegistrationPage {
             mobileNumberInput = $("#userNumber"),
             dateOfBirthInput = $("#dateOfBirthInput"),
             subjectsInput = $("#subjectsInput"),
-            hobbiesSportsInput = $("[for=hobbies-checkbox-1]"),
-            hobbiesReadingInput = $("[for=hobbies-checkbox-2]"),
-            hobbiesMusicInput = $("[for=hobbies-checkbox-3]"),
+            hobbiesInput = $("#hobbiesWrapper"),
             uploadPictureInput = $("#uploadPicture"),
             currentAddressInput = $("#currentAddress"),
             stateInput = $("#react-select-3-input"),
@@ -71,19 +69,7 @@ public class RegistrationPage {
     }
 
     public RegistrationPage setHobbies(String hobbies) {
-        switch (hobbies) {
-            case "Sports":
-                hobbiesSportsInput.click();
-                break;
-            case "Reading":
-                hobbiesReadingInput.click();
-                break;
-            case "Music":
-                hobbiesMusicInput.click();
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported hobbies: " + hobbies);
-        }
+        hobbiesInput.$(byText(hobbies)).click();
         return this;
     }
 
