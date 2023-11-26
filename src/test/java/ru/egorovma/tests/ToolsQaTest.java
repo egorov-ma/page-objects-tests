@@ -1,26 +1,48 @@
 package ru.egorovma.tests;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Tags;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import ru.egorovma.data.TestDataForStudentRegistrationForm;
 import ru.egorovma.pages.RegistrationPage;
 
-import static ru.egorovma.data.TestDataForStudentRegistrationForm.*;
+import java.util.List;
+import java.util.stream.Stream;
+
+import static ru.egorovma.data.TestDataForStudentRegistrationForm.CSS_EXPECTED_VALUE;
+import static ru.egorovma.data.TestDataForStudentRegistrationForm.TOOLS_QA_URL;
 
 //todo попробовать запускать через gradle только SMOKE тесты
 
 @DisplayName("Проверка экранной формы регистрации студента")
 public class ToolsQaTest extends TestBase {
     RegistrationPage registrationPage = new RegistrationPage();
-    TestDataForStudentRegistrationForm data = new TestDataForStudentRegistrationForm();
+    TestDataForStudentRegistrationForm data = new TestDataForStudentRegistrationForm("en");
 
-    @Test
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                Arguments.of(
+                        new TestDataForStudentRegistrationForm("ru")
+                ),
+                Arguments.of(
+                        new TestDataForStudentRegistrationForm("en")
+                )
+        );
+    }
+
+    @MethodSource("dataProvider")
+    @ParameterizedTest(name = "Параметризованный тест")
     @Tags({
             @Tag("SMOKE"),
             @Tag("WEB"),
             @Tag("Positive")
     })
     @DisplayName("Проверка заполнения всех полей")
-    void studentFullRegistrationForm() {
+    void studentFullRegistrationForm(TestDataForStudentRegistrationForm data) {
         registrationPage.openPage(TOOLS_QA_URL)
                 .setFirstName(data.firstName)
                 .setLastName(data.lastName)
@@ -48,13 +70,15 @@ public class ToolsQaTest extends TestBase {
                 .checkResult("State and City", data.stateAndCity);
     }
 
-    @Test
+
+    @MethodSource("dataProvider")
+    @ParameterizedTest(name = "Параметризованный тест")
     @Tags({
             @Tag("WEB"),
             @Tag("Positive")
     })
     @DisplayName("Проверка заполнения минимального кол-ва полей")
-    void studentMinimumRegistrationForm() {
+    void studentMinimumRegistrationForm(TestDataForStudentRegistrationForm data) {
         registrationPage.openPage(TOOLS_QA_URL)
                 .setFirstName(data.firstName)
                 .setLastName(data.lastName)
@@ -69,26 +93,45 @@ public class ToolsQaTest extends TestBase {
                 .checkResult("Date of Birth", data.dateOfBirth);
     }
 
-    @Disabled("Дубль")
-    @Test
+    static Stream<Arguments> studentHobbiesTest() {
+        return Stream.of(
+                Arguments.of(
+                        List.of("Sports", "Reading", "Music")
+                ),
+                Arguments.of(
+                        List.of("Sports", "Reading")
+                ),
+                Arguments.of(
+                        List.of("Sports", "Music")
+                ),
+                Arguments.of(
+                        List.of("Reading", "Music")
+                )
+        );
+    }
+
+    @MethodSource("studentHobbiesTest")
+    @ParameterizedTest(name = "Проверяем разные наборы хобби: {0}")
     @Tags({
             @Tag("WEB"),
             @Tag("Positive")
     })
     @DisplayName("Проверка заполнения минимального кол-ва полей")
-    void studentMinimumRegistrationForm2() {
+    void studentHobbiesTest(List<String> hobbies) {
         registrationPage.openPage(TOOLS_QA_URL)
                 .setFirstName(data.firstName)
                 .setLastName(data.lastName)
                 .setGender(data.gender)
                 .setUserNumber(data.userNumber)
                 .setDateOfBirth(data.dayBirth, data.monthBirth, data.yearBirth)
+                .setHobbies(hobbies)
                 .submit();
 
         registrationPage.checkResult("Student Name", data.fullName)
                 .checkResult("Gender", data.gender)
                 .checkResult("Mobile", data.userNumber)
-                .checkResult("Date of Birth", data.dateOfBirth);
+                .checkResult("Date of Birth", data.dateOfBirth)
+                .checkResult("Hobbies", hobbies);
     }
 
     @Test

@@ -4,6 +4,8 @@ import com.codeborne.selenide.SelenideElement;
 import ru.egorovma.pages.components.CalendarComponent;
 import ru.egorovma.pages.components.TableResultFormComponent;
 
+import java.util.List;
+
 import static com.codeborne.selenide.Condition.cssValue;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
@@ -73,6 +75,13 @@ public class RegistrationPage {
         return this;
     }
 
+    public RegistrationPage setHobbies(List<String> hobbies) {
+        for (String hobby : hobbies) {
+            hobbiesInput.$(byText(hobby)).click();
+        }
+        return this;
+    }
+
     public RegistrationPage setPicture(String picture) {
         uploadPictureInput.uploadFromClasspath(picture);
         return this;
@@ -99,6 +108,12 @@ public class RegistrationPage {
 
     public RegistrationPage checkResult(String key, String value) {
         tableResultFormComponent.checkResult(key, value);
+        return this;
+    }
+
+    public RegistrationPage checkResult(String key, List<String> value) {
+        String formattedValue = value.toString().replaceAll("[\\[\\]]", "");
+        tableResultFormComponent.checkResult(key, formattedValue);
         return this;
     }
 
