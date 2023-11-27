@@ -121,4 +121,8 @@ public class RegistrationPage {
         firstNameInput.shouldHave(cssValue(propertyName, expectedValue));
         lastNameInput.shouldHave(cssValue(propertyName, expectedValue));
     }
+
+    public void checkRequiredUserNumber(String propertyName, String expectedValue) {
+        mobileNumberInput.shouldHave(cssValue(propertyName, expectedValue));
+    }
 }

@@ -6,11 +6,14 @@ import org.junit.jupiter.api.Tags;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import ru.egorovma.data.TestDataForStudentRegistrationForm;
 import ru.egorovma.pages.RegistrationPage;
 
 import java.util.List;
+import java.util.logging.StreamHandler;
 import java.util.stream.Stream;
 
 import static ru.egorovma.data.TestDataForStudentRegistrationForm.CSS_EXPECTED_VALUE;
@@ -34,8 +37,25 @@ public class ToolsQaTest extends TestBase {
         );
     }
 
+    static Stream<Arguments> studentHobbiesTest() {
+        return Stream.of(
+                Arguments.of(
+                        List.of("Sports", "Reading", "Music")
+                ),
+                Arguments.of(
+                        List.of("Sports", "Reading")
+                ),
+                Arguments.of(
+                        List.of("Sports", "Music")
+                ),
+                Arguments.of(
+                        List.of("Reading", "Music")
+                )
+        );
+    }
+
     @MethodSource("dataProvider")
-    @ParameterizedTest(name = "Параметризованный тест")
+    @ParameterizedTest(name = "Рандомные, локализованные данные пользователя {0}")
     @Tags({
             @Tag("SMOKE"),
             @Tag("WEB"),
@@ -70,9 +90,8 @@ public class ToolsQaTest extends TestBase {
                 .checkResult("State and City", data.stateAndCity);
     }
 
-
     @MethodSource("dataProvider")
-    @ParameterizedTest(name = "Параметризованный тест")
+    @ParameterizedTest(name = "Рандомные, локализованные данные пользователя {0}")
     @Tags({
             @Tag("WEB"),
             @Tag("Positive")
@@ -93,30 +112,36 @@ public class ToolsQaTest extends TestBase {
                 .checkResult("Date of Birth", data.dateOfBirth);
     }
 
-    static Stream<Arguments> studentHobbiesTest() {
-        return Stream.of(
-                Arguments.of(
-                        List.of("Sports", "Reading", "Music")
-                ),
-                Arguments.of(
-                        List.of("Sports", "Reading")
-                ),
-                Arguments.of(
-                        List.of("Sports", "Music")
-                ),
-                Arguments.of(
-                        List.of("Reading", "Music")
-                )
-        );
-    }
-
-    @MethodSource("studentHobbiesTest")
-    @ParameterizedTest(name = "Проверяем разные наборы хобби: {0}")
+    @CsvFileSource(resources = "/test_data/studentTestData.csv")
+    @ParameterizedTest(name = "дата {4} {5} {6}")
     @Tags({
             @Tag("WEB"),
             @Tag("Positive")
     })
-    @DisplayName("Проверка заполнения минимального кол-ва полей")
+    @DisplayName("Проверяем работу с календарем")
+    void calendarTest(String firstName, String lastName, String gender, String userNumber,
+                      String dayBirth, String monthBirth, String yearBirth) {
+        registrationPage.openPage(TOOLS_QA_URL)
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setGender(gender)
+                .setUserNumber(userNumber)
+                .setDateOfBirth(dayBirth, monthBirth, yearBirth)
+                .submit();
+
+        registrationPage.checkResult("Student Name", firstName + " " + lastName)
+                .checkResult("Gender", gender)
+                .checkResult("Mobile", userNumber)
+                .checkResult("Date of Birth", dayBirth + " " + monthBirth + "," + yearBirth);
+    }
+
+    @MethodSource("studentHobbiesTest")
+    @ParameterizedTest(name = "хобби: {0}")
+    @Tags({
+            @Tag("WEB"),
+            @Tag("Positive")
+    })
+    @DisplayName("Проверяем разные наборы хобби")
     void studentHobbiesTest(List<String> hobbies) {
         registrationPage.openPage(TOOLS_QA_URL)
                 .setFirstName(data.firstName)
@@ -143,5 +168,21 @@ public class ToolsQaTest extends TestBase {
     void negativeStudentRegistrationForm() {
         registrationPage.openPage(TOOLS_QA_URL).submit();
         registrationPage.checkRequiredFields("border-color", CSS_EXPECTED_VALUE);
+    }
+
+    @ValueSource(strings = {
+            "7 987 6546", "123-123-12", "7(987)4561"
+    })
+    @ParameterizedTest(name = "Проверка маски: {0}")
+    @Tags({
+            @Tag("WEB"),
+            @Tag("Negative")
+    })
+    @DisplayName("Проверка мобильного телефона")
+    void userNumberTest(String userNumber) {
+        registrationPage.openPage(TOOLS_QA_URL).submit();
+        registrationPage.setUserNumber(userNumber)
+                .submit();
+        registrationPage.checkRequiredUserNumber("border-color", CSS_EXPECTED_VALUE);
     }
 }
