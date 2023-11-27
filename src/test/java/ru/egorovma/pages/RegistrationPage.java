@@ -111,10 +111,9 @@ public class RegistrationPage {
         return this;
     }
 
-    public RegistrationPage checkResult(String key, List<String> value) {
+    public void checkResult(String key, List<String> value) {
         String formattedValue = value.toString().replaceAll("[\\[\\]]", "");
         tableResultFormComponent.checkResult(key, formattedValue);
-        return this;
     }
 
     public void checkRequiredFields(String propertyName, String expectedValue) {

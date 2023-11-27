@@ -13,7 +13,6 @@ import ru.egorovma.data.TestDataForStudentRegistrationForm;
 import ru.egorovma.pages.RegistrationPage;
 
 import java.util.List;
-import java.util.logging.StreamHandler;
 import java.util.stream.Stream;
 
 import static ru.egorovma.data.TestDataForStudentRegistrationForm.CSS_EXPECTED_VALUE;
