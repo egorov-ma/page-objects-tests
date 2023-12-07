@@ -1,0 +1,7 @@
+FileType,dependencies
+pdf,pdf-test
+xlsx,xls-test
+csv,opencsv
+zip,ZipInputStream
+json,gson
+json,jackson
