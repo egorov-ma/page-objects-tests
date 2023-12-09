@@ -1,0 +1,32 @@
+{
+  "premium": true,
+  "maintenance": false,
+  "config_updated_ts": 1693487433,
+  "agents": [
+    {
+      "agent_id": 1773434,
+      "display_name": "Ольга",
+      "title": "Консультант"
+    },
+    {
+      "agent_id": 1773491,
+      "display_name": "Даниил",
+      "title": "Консультант"
+    },
+    {
+      "agent_id": 1773495,
+      "display_name": "Ника",
+      "title": "Консультант"
+    },
+    {
+      "agent_id": 1773496,
+      "display_name": "Светлана",
+      "title": "Консультант"
+    },
+    {
+      "agent_id": 1773497,
+      "display_name": "Максим",
+      "title": "Консультант"
+    }
+  ]
+}
