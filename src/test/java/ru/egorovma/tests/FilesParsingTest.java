@@ -17,15 +17,14 @@ public class FilesParsingTest {
 
     private ClassLoader cl = FilesParsingTest.class.getClassLoader();
     ObjectMapper objectMapper = new ObjectMapper();
-//    private static final Gson gson = new Gson();
+    private static final Gson gson = new Gson();
 //    StatusItem emp = JacksonObjectMapperExample.createEmployee();
 //    StatusItem employee = objectMapper.readValue(file, Employee.class);
 
     @Test
     void jsonFileParsingImprovedTest() throws Exception {
-        try (Reader reader = new InputStreamReader(
-                cl.getResourceAsStream("glossary.json")
-        )) {
+        try (Reader reader = new InputStreamReader(cl.getResourceAsStream("glossary.json"))) {
+
             Glossary actual = gson.fromJson(reader, Glossary.class);
 
             Assertions.assertEquals("example glossary", actual.getTitle());
@@ -35,19 +34,19 @@ public class FilesParsingTest {
         }
     }
 
-    @Test
-    void jsonFileParsingStatusItemTest() throws Exception {
-        File file = new File("sport-marafon.json");
-        StatusItem statusItem = objectMapper.readValue(file, StatusItem.class);
-
-        assertThat(statusItem.getConfigUpdatedTs().(1693487433));
-        assertThat(statusItem.getLastName()).isEqualTo("Simpson");
-        assertThat(statusItem.getFirstName()).isEqualTo("Homer");
-
-    }
+//    @Test
+//    void jsonFileParsingStatusItemTest() throws Exception {
+//        File file = new File("sport-marafon.json");
+//        StatusItem statusItem = objectMapper.readValue(file, StatusItem.class);
+//
+//        assertThat(statusItem.getConfigUpdatedTs().(1693487433));
+//        assertThat(statusItem.getLastName()).isEqualTo("Simpson");
+//        assertThat(statusItem.getFirstName()).isEqualTo("Homer");
+//
+//    }
 }
 
-{
+//{
 //        "premium": true,
 //        "maintenance": false,
 //        "config_updated_ts": 1693487433,

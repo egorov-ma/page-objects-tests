@@ -16,4 +16,16 @@ public class AgentsItem{
 	public String getTitle(){
 		return title;
 	}
+
+	public void setAgentId(int agentId) {
+		this.agentId = agentId;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 }
