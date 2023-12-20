@@ -2,16 +2,19 @@ package ru.egorovma.tests;
 
 import com.codeborne.pdftest.PDF;
 import com.codeborne.xlstest.XLS;
+import com.opencsv.CSVReader;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public class ZipFileTests {
 
-    private ClassLoader cl = FilesParsingTest.class.getClassLoader();
+    private final ClassLoader cl = FilesParsingTest.class.getClassLoader();
 
     @Test
     void zipPdfFileParsingTest() throws Exception {
@@ -40,21 +43,22 @@ public class ZipFileTests {
         }
     }
 
-//    @Test
-//    void csvFileParsingTest() throws Exception {
-//        try (InputStream is = cl.getResourceAsStream("example.csv");
-//             CSVReader csvReader = new CSVReader(new InputStreamReader(is))) {
-//
-//            List<String[]> data = csvReader.readAll();
-//            Assertions.assertEquals(2, data.size());
-//            Assertions.assertArrayEquals(
-//                    new String[]{"Selenide", "https://selenide.org"},
-//                    data.get(0)
-//            );
-//            Assertions.assertArrayEquals(
-//                    new String[]{"JUnit 5", "https://junit.org"},
-//                    data.get(1)
-//            );
-//        }
-//    }
+    @Test
+    void zipCsvFileParsingTest() throws Exception {
+        try (ZipInputStream zis = new ZipInputStream(Objects.requireNonNull(cl.getResourceAsStream("test.zip")))) {
+            ZipEntry entry;
+            while ((entry = zis.getNextEntry()) != null) {
+                if (entry.getName().contains(".csv")) {
+                    CSVReader csvReader = new CSVReader(new InputStreamReader(zis));
+                    List<String[]> data = csvReader.readAll();
+
+                    Assertions.assertEquals(7, data.size());
+                    Assertions.assertArrayEquals(
+                            new String[]{"FileType", "dependencies"},
+                            data.get(0)
+                    );
+                }
+            }
+        }
+    }
 }
