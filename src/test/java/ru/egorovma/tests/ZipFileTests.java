@@ -14,7 +14,7 @@ import java.util.zip.ZipInputStream;
 
 public class ZipFileTests {
 
-    private final ClassLoader cl = FilesParsingTest.class.getClassLoader();
+    private final ClassLoader cl = JsonParsingTest.class.getClassLoader();
 
     @Test
     void zipPdfFileParsingTest() throws Exception {

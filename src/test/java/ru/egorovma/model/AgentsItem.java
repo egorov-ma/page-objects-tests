@@ -1,31 +1,24 @@
 package ru.egorovma.model;
 
-public class AgentsItem{
-	private int agentId;
-	private String displayName;
-	private String title;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-	public int getAgentId(){
-		return agentId;
-	}
+public class AgentsItem {
+    @JsonProperty("agent_id")
+    private int agentId;
+    @JsonProperty("display_name")
+    private String displayName;
+    private String title;
 
-	public String getDisplayName(){
-		return displayName;
-	}
+    public int getAgentId() {
+        return agentId;
+    }
 
-	public String getTitle(){
-		return title;
-	}
+    public String getDisplayName() {
+        return displayName;
+    }
 
-	public void setAgentId(int agentId) {
-		this.agentId = agentId;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
 }
